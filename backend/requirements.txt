@@ -7,5 +7,5 @@ pyjwt
 pydantic_settings
 
 
-
+psycopg2
 
