@@ -6,6 +6,6 @@ passlib
 pyjwt
 pydantic_settings
 pydantic[email]
-
+python-multipart
 psycopg2
 
