@@ -5,7 +5,7 @@ pydantic
 passlib
 pyjwt
 pydantic_settings
-email-validators
+pydantic[email]
 
 psycopg2
 
