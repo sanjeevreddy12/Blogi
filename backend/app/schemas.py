@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from datetime import datetime
 
 class UserBase(BaseModel):
@@ -15,8 +15,7 @@ class User(UserBase):
     created_at: datetime
     updated_at: Optional[datetime] = None
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class PostBase(BaseModel):
