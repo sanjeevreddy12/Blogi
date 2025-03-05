@@ -2,7 +2,6 @@ from typing import List, Optional
 from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
 
-# User Schemas
 class UserBase(BaseModel):
     username: str
     email: EmailStr
@@ -19,7 +18,7 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
-# Post Schemas
+
 class PostBase(BaseModel):
     title: str
     content: str
@@ -27,7 +26,8 @@ class PostBase(BaseModel):
     published: bool = True
 
 class PostCreate(PostBase):
-    pass
+    image_url: Optional[str] = None  
+
 
 class PostUpdate(BaseModel):
     title: Optional[str] = None
