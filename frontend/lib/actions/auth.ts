@@ -47,7 +47,21 @@ export const authoptions: AuthOptions = {
       },
     }),
   ],
-   useSecureCookies: process.env.NODE_ENV === "production",
+  useSecureCookies: process.env.NODE_ENV === "production",  
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === "production"
+        ? "__Secure-next-auth.session-token"
+        : "next-auth.session-token", 
+      options: {
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",  
+        secure: process.env.NODE_ENV === "production",  
+      },
+    },
+  },
+  
+   
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -76,5 +90,5 @@ export const authoptions: AuthOptions = {
     //@ts-ignore
     maxAge: 1500 * 24 * 60 * 60, 
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || "sanju",
 };
