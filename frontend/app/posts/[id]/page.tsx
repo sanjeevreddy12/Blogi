@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Container, Typography, Card, CardContent, CircularProgress } from "@mui/material";
+import { Dialog, DialogContent,Container, Typography, Card, CardContent, CircularProgress } from "@mui/material";
 import { useSession } from "next-auth/react";
 
 interface Post {
@@ -20,7 +20,7 @@ export default function PostDetailPage() {
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const { data: session } = useSession();
-
+  const [selected,setselected]=useState<string | null>(null)
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -38,7 +38,7 @@ export default function PostDetailPage() {
     fetchPost();
   }, [id]);
 
-  if (loading) return <CircularProgress className="block mx-auto mt-10" />;
+  if (loading) return <CircularProgress className=" flex justify-center  " />;
   if (!post) return <Typography className="text-center mt-10">Post not found.</Typography>;
 
   const getFullImageUrl = (imageUrl?: string) => {
@@ -50,8 +50,9 @@ export default function PostDetailPage() {
     <Container maxWidth="md" className="mt-10">
       <Card>
         {post.image_url && (
-          <img src={getFullImageUrl(post.image_url) || undefined} alt={post.title} className="w-full h-64 object-cover" />
-        )}
+          <img src={getFullImageUrl(post.image_url) || undefined} alt={post.title}  onClick={() => setselected(getFullImageUrl(post.image_url))}  className="w-full h-64 object-cover" />
+        
+        ) }
         <CardContent>
           <Typography variant="h4">{post.title}</Typography>
           <Typography variant="subtitle2" color="text.secondary">
@@ -60,6 +61,13 @@ export default function PostDetailPage() {
           <Typography variant="body1" className="mt-4">{post.content}</Typography>
         </CardContent>
       </Card>
+       <Dialog open={!!selected} onClose={() => setselected(null)}>
+                          <DialogContent>
+                           
+                          
+                            <img src={selected || "null" } alt="Full View" className="w-full h-auto" />
+                          </DialogContent>
+                        </Dialog>   
     </Container>
   );
 }

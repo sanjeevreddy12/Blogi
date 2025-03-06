@@ -47,6 +47,7 @@ export const authoptions: AuthOptions = {
       },
     }),
   ],
+   useSecureCookies: process.env.NODE_ENV === "production",
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -72,6 +73,8 @@ export const authoptions: AuthOptions = {
   debug: true,
   session: {
     strategy: "jwt",
+    //@ts-ignore
     maxAge: 1500 * 24 * 60 * 60, 
   },
+  secret: process.env.NEXTAUTH_SECRET,
 };

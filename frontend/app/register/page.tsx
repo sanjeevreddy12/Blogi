@@ -23,6 +23,7 @@ export default function RegisterPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, email, password }),
+        mode: "cors"
       });
 
       const data = await res.json();
@@ -32,7 +33,6 @@ export default function RegisterPage() {
         return;
       }
 
-      // Redirect to login or automatically sign in
       router.push("/login");
     } catch (err) {
       setError("An unexpected error occurred");
