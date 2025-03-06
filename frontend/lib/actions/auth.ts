@@ -47,19 +47,7 @@ export const authoptions: AuthOptions = {
       },
     }),
   ],
-  useSecureCookies: process.env.NODE_ENV === "production",  
-  cookies: {
-    sessionToken: {
-      name: process.env.NODE_ENV === "production"
-        ? "__Secure-next-auth.session-token"
-        : "next-auth.session-token", 
-      options: {
-        httpOnly: true,
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",  
-        secure: process.env.NODE_ENV === "production",  
-      },
-    },
-  },
+ 
   
    
   callbacks: {
@@ -69,6 +57,7 @@ export const authoptions: AuthOptions = {
         token.accessToken = user.accessToken;
         token.username = user.name;
       }
+      console.log("tokennnnnnnnnnnnnnnn",token)
       return token;
     },
     async session({ session, token }) {
@@ -78,6 +67,7 @@ export const authoptions: AuthOptions = {
       session.user.name = token.username;
       //@ts-ignore
       session.user.id =token.sub;
+      console.log("sssssssssssssssss",session)
       return session;
     },
   },

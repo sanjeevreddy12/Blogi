@@ -1,7 +1,6 @@
+'use client'
 
-'use client';
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { 
   AppBar, 
   Toolbar, 
@@ -10,17 +9,30 @@ import {
   Menu, 
   MenuItem 
 } from "@mui/material";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut  } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import Cookies from "js-cookie";
 export default function Navbar() {
-  const { data: session } = useSession();
+  
   const router = useRouter();
+  const { data: session, status , update} = useSession();
+  useEffect(() => {
+    
+    const validateSession = async () => {
+      if (status === "unauthenticated") {
+        router.replace("/login");
+      }
+    };
+    
+    validateSession();
+  }, [status, router]);
+ 
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    if (anchorEl) return; // Prevent re-opening on re-renders
+    if (anchorEl) return; 
     setAnchorEl(event.currentTarget);
   };
   
@@ -29,10 +41,21 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     handleProfileMenuClose();
-    signOut({ redirect: false });
-    router.push("/login");
+   
+    Cookies.remove("next-auth.session-token");
+    Cookies.remove("next-auth.csrf-token");
+    Cookies.remove("next-auth.callback-url");
+    
+    
+    await signOut({ callbackUrl: "/login"});
+    
+   
+    await update();
+    
+    
+    router.replace("/login");
   };
   
 
