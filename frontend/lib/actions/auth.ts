@@ -31,6 +31,10 @@ export const authoptions: AuthOptions = {
           console.log("datatatat",data);
 
           if (res.ok && data.access_token) {
+            if (typeof window !== "undefined") {
+              localStorage.setItem("accessToken", data.access_token);
+              console.log("Saved token:", data.access_token);
+            }
             return {
               id: data.access_token,
               name: credentials.username,

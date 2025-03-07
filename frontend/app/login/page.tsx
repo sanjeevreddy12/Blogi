@@ -29,7 +29,7 @@ export default function LoginPage() {
       });
 
       setIsLoading(false);
-
+         console.log("outside result...................")
       if (result?.error) {
         toast.error("Invalid Credentials")
         if (result.error === "CredentialsSignin") {
@@ -38,7 +38,9 @@ export default function LoginPage() {
           setError("An unexpected error occurred");
         }
       } else if (result?.ok) {
-        router.push("/posts");
+        console.log("result is ok",`${process.env.NEXT_PUBLIC_URL} is okkkkkkkkkkkkk`)
+    
+        router.replace("/posts");
       } else {
         setError("An unexpected error occurred");
       }

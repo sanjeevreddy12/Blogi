@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql://neondb_owner:npg_Po57hbnpUKYf@ep-plain-unit-a8zun7cf-pooler.eastus2.azure.neon.tech/neondb?sslmode=require"
+    restart: always
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: "http://backend:8000"
+    depends_on:
+      - backend
+    restart: always
